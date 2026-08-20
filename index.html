@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Georgia, "Times New Roman", serif;
+            background: linear-gradient(135deg, #1a0b14, #351426, #180912);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Floating hearts */
+        .heart {
+            position: fixed;
+            bottom: -30px;
+            font-size: 18px;
+            opacity: 0.6;
+            animation: floatUp linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Opening screen */
+        .opening {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .intro {
+            max-width: 600px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        .intro .heart-icon {
+            font-size: 65px;
+            margin-bottom: 20px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.12);
+            }
+        }
+
+        .intro h1 {
+            font-size: clamp(32px, 8vw, 55px);
+            margin-bottom: 15px;
+        }
+
+        .intro p {
+            font-size: 18px;
+            opacity: 0.8;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        button {
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            background: #ff6b9d;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.3);
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-3px) scale(1.03);
+            background: #ff82ac;
+        }
+
+        /* Letter */
+        .letter-section {
+            display: none;
+            min-height: 100vh;
+            padding: 70px 20px;
+        }
+
+        .letter-section.show {
+            display: block;
+            animation: fadeIn 1.2s ease;
+        }
+
+        .letter {
+            max-width: 750px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            border-radius: 25px;
+            padding: clamp(25px, 6vw, 55px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .letter-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .letter-title .small-heart {
+            font-size: 35px;
+        }
+
+        .letter-title h2 {
+            font-size: clamp(28px, 7vw, 42px);
+            margin-top: 10px;
+        }
+
+        .letter p {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.9;
+            margin-bottom: 22px;
+            color: #f8e9ef;
+        }
+
+        .highlight {
+            text-align: center;
+            font-size: 22px;
+            font-style: italic;
+            margin: 35px 0;
+            color: #ffb4ca;
+        }
+
+        .ending {
+            text-align: center;
+            margin-top: 45px;
+            font-family: Arial, sans-serif;
+        }
+
+        .ending .big-heart {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .ending p {
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .letter-section {
+                padding: 35px 12px;
+            }
+
+            .letter {
+                border-radius: 18px;
+                padding: 25px 20px;
+            }
+
+            .letter p {
+                font-size: 15px;
+                line-height: 1.8;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating hearts -->
+    <div class="heart" style="left: 10%; animation-duration: 8s;">♡</div>
+    <div class="heart" style="left: 25%; animation-duration: 11s; animation-delay: 2s;">♥</div>
+    <div class="heart" style="left: 45%; animation-duration: 9s; animation-delay: 4s;">♡</div>
+    <div class="heart" style="left: 65%; animation-duration: 12s; animation-delay: 1s;">♥</div>
+    <div class="heart" style="left: 85%; animation-duration: 10s; animation-delay: 3s;">♡</div>
+
+    <!-- Opening -->
+    <section class="opening" id="opening">
+        <div class="intro">
+            <div class="heart-icon">❤️</div>
+
+            <h1>For You</h1>
+
+            <p>
+                I have something I've been wanting to say.
+                Please take a moment to read this.
+            </p>
+
+            <button onclick="openLetter()">
+                Open My Message 💌
+            </button>
+        </div>
+    </section>
+
+    <!-- Letter -->
+    <section class="letter-section" id="letter">
+
+        <div class="letter">
+
+            <div class="letter-title">
+                <div class="small-heart">💗</div>
+                <h2>I'm Sorry lovey</h2>
+            </div>
+
+            <p>
+                I'm really sorry, love. I've been thinking a lot about how
+                I've been treating you lately, and honestly, I know I haven't
+                been the same person you first met.
+            </p>
+
+            <p>
+                At the beginning, I was so sweet to you. I always made you
+                feel loved, appreciated, and treasured. I made you feel like
+                you were someone really important to me, and I know I gave
+                you the feeling that I would always make an effort for you.
+                But lately, I feel like I've slowly stopped being that person.
+            </p>
+
+            <p>
+                I'm sorry because there are times when you're hurt or upset
+                with me and instead of trying my best to understand you and
+                fix things, I just leave it alone or act like it isn't a big
+                deal. I know that probably makes you feel like your feelings
+                don't matter to me anymore.
+            </p>
+
+            <p>
+                And honestly, you don't deserve that from me.
+            </p>
+
+            <p>
+                I realize that i've become the kind of boyfriend I promised
+                myself I wouldn't become. I used to care so much about the
+                little things. I used to make sure you felt loved, and I used
+                to make an effort to make you feel special.
+            </p>
+
+            <p>
+                Now, whenever we have an argument, sometimes I just let it
+                pass without properly fixing it. I know saying "sorry" after
+                everything isn't enough, especially when my actions keep
+                making you feel the same way.
+            </p>
+
+            <div class="hightlight">
+                "I know that words mean nothing if my actions don't change."
+            </div>
+
+            <p>
+                I'm sorry if I made you feel like I don't treasure you
+                anymore. I'm sorry if I made you question whether you're
+                still important to me. I'm sorry if the way I act now makes
+                you miss the version of me who used to give you so much
+                attention and reassurance.
+            </p>
+
+            <p>
+                I know I can't just tell you that I still care and expect
+                everything to be okay. I understand that my actions are what
+                really matter.
+            </p>
+
+            <p>
+                I don't want to blame you, our arguments, my mood, being
+                tired, games, or anything else for the way I've been treating
+                you. Those things might explain why I acted a certain way,
+                but they don't excuse it.
+            </p>
+
+            <p>
+                I should have communicated better. I should have listened
+                instead of ignoring things. I should have tried to understand
+                you instead of letting the problem sit there until it became
+                even bigger.
+            </p>
+
+            <p>
+                I'm sorry for every time you had to wonder,
+                "Does he even care anymore?" when I should have been making
+                you feel secure instead.
+            </p>
+
+            <p>
+                You shouldn't have to beg for the same effort and affection
+                that I willingly gave you before.
+            </p>
+
+            <p>
+                I also want to apologize for the times I made you feel alone
+                even though you were supposed to have me beside you.
+                I know being in a relationship isn't just about being there
+                when everything is okay.
+            </p>
+
+            <p>
+                It's also about choosing to communicate when things get
+                difficult, listening when the other person is hurt, and
+                actually trying to fix things instead of avoiding them.
+            </p>
+
+            <p>
+                I know I can't change everything that already happened.
+                I can't take back the moments where I ignored you,
+                disappointed you, or made you feel less loved than you
+                deserved.
+            </p>
+
+            <p>
+                But I can acknowledge what I did wrong and actually work
+                on changing it.
+            </p>
+
+            <p>
+                I don't want to bring back the old version of me just
+                through words. I want to show you through my actions that
+                I still care.
+            </p>
+
+            <p>
+                I want to learn how to communicate with you better, how to
+                handle our arguments more maturely, and how to stop taking
+                your presence for granted.
+            </p>
+
+            <p>
+                If you're hurt, I want to learn to listen instead of
+                becoming distant. If we have a problem, I want to work
+                through it instead of pretending it doesn't exist.
+            </p>
+
+            <p>
+                I'm not asking you to immediately forget everything or
+                forgive me just because I said sorry. I understand if
+                you're still hurt or disappointed. You have every right
+                to feel that way.
+            </p>
+
+            <p>
+                I just want you to know that I recognize my mistakes,
+                and I genuinely regret making you feel like you're no
+                longer treasured by me.
+            </p>
+
+            <p>
+                You were someone I once made feel so special, and it hurts
+                me to realize that lately, I've been making you feel the
+                opposite.
+            </p>
+
+            <p>
+                You deserve consistency, effort, patience, reassurance,
+                and genuine care not just during the good days, but
+                especially during the difficult ones.
+            </p>
+
+            <p>
+                I'm sorry for becoming distant. I'm sorry for the arguments
+                I failed to properly fix. I'm sorry for the times I chose
+                to ignore things instead of understanding you.
+            </p>
+
+            <p>
+                And most of all, I'm sorry if I made you feel like my love
+                and effort disappeared.
+            </p>
+
+            <p>
+                I still care about you deeply. I just know that caring
+                isn't enough if I don't know how to show it properly.
+                So I want to do better — not because I'm scared of losing
+                you, but because you deserve a boyfriend who actually makes
+                an effort to treat you right.
+            </p>
+
+            <p>
+                I'm really sorry for everything, love. I know I have a lot
+                to improve, and I don't expect you to believe me immediately.
+                I'll let my actions speak for me.
+            </p>
+
+            <p>
+                I just hope that, little by little, I can make you feel
+                treasured again not because I'm trying to recreate the
+                beginning of our relationship, but because I want to become
+                a better partner for you moving forward.
+            </p>
+
+            <div class="ending">
+                <div class="big-heart">❤️</div>
+
+                <p>
+                    I'm sorry lovey.<br>
+                    I love you so so much lovey.<br>
+                    And i'll do my best again and again to show it through my actions.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <script>
+        function openLetter() {
+            document.getElementById("opening").style.display = "none";
+
+            const letter = document.getElementById("letter");
+            letter.classList.add("show");
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+    </script>
+
+</body>
+</html>
